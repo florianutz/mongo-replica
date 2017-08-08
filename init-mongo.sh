@@ -36,5 +36,5 @@ if [ $? -ne 0 ]; then
     mongo --host ${mongonodes[0]} --eval 'rs.add("$rs")';
   done
 fi
-
+mongo --host ${mongonodes[0]} --eval 'rs.status()';
 exit 0
