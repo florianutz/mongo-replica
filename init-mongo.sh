@@ -25,7 +25,7 @@ checkparameters $@
 checknodes
 #echo ${mongonodes[@]}
 #echo ${mongonodes[*]}
-#exit 0
+exit 0
 # Connect to rs1 and check is replicaset already configured with 3 nodes
 status=$(mongo --host ${mongonodes[0]} --quiet --eval 'rs.status().members.length')
 if [ $? -ne 0 ]; then
