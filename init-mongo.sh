@@ -14,7 +14,7 @@ function checkparameters() {
 # Make sure all replicas available
 function checknodes() {
   for rs in "${mongonodes[@]}";do
-    echo mongo --host $rs --eval 'db'
+    mongo --host $rs --eval 'db'
     if [ $? -ne 0 ]; then
       exit 1
     fi
@@ -23,9 +23,9 @@ function checknodes() {
 
 checkparameters $@
 checknodes
-echo ${mongonodes[@]}
-echo ${mongonodes[*]}
-exit 0
+#echo ${mongonodes[@]}
+#echo ${mongonodes[*]}
+#exit 0
 # Connect to rs1 and check is replicaset already configured with 3 nodes
 status=$(mongo --host ${mongonodes[0]} --quiet --eval 'rs.status().members.length')
 if [ $? -ne 0 ]; then
