@@ -4,7 +4,7 @@ function checkparameters() {
   if [ "$#" -eq 0 ]; then
     mongonodes=( rs1 rs2 rs3 )
     echo no nodes definde as parameter
-    echo using default nodes $mongonodes
+    echo using default nodes ${mongonodes[@]}
   else
     mongonodes=( "$@" )
     echo not default nodes
@@ -36,5 +36,6 @@ if [ $? -ne 0 ]; then
     mongo --host ${mongonodes[0]} --eval 'rs.add("$rs")';
   done
 fi
+mongo --host ${mongonodes[0]} --eval 'rs.status().members.length';
 mongo --host ${mongonodes[0]} --eval 'rs.status()';
 exit 0
