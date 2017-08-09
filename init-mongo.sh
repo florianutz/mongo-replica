@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 # Make sure 3 replicas available
 function checkparameters() {
   if [ "$#" -eq 0 ]; then
