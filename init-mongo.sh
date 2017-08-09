@@ -38,7 +38,7 @@ if [ $? -ne 0 ]; then
   mongo --host ${mongonodes[0]} --eval 'rs.conf()';
   for (( rs=1; i<${nodecount}; i++ ));
   do
-    mongo --host ${mongonodes[0]} --eval 'rs.add("${mongonodes[$rs]}")';
+    mongo "--host "${mongonodes[0]}" --eval 'rs.add(\""${mongonodes[$rs]}"\"")';"
     echo add node $rs
   done
 
