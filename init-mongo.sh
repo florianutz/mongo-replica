@@ -31,7 +31,7 @@ setupreplica() {
   do
     mongocmd="--host "${mongonodes[0]}" --eval 'rs.add(\""${mongonodes[$rs]}"\")';"
     echo $mongocmd
-    mongo ""$mongocmd"
+    mongo $mongocmd
     echo add node $rs
   done
 }
