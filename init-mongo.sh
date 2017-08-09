@@ -27,9 +27,10 @@ setupreplica() {
   mongo --host ${mongonodes[0]} --eval 'rs.initiate()';
   echo rs.conf
   mongo --host ${mongonodes[0]} --eval 'rs.conf()';
-  for (( rs=1; rs<=${nodecount}; rs++ ));
+  for (( rs=1; rs<${nodecount}; rs++ ));
   do
-    mongocmd="--host "${mongonodes[0]}" --eval 'rs.add(\""${mongonodes[$rs]}"\")';"
+    # mongocmd="--host "${mongonodes[0]}" --eval 'rs.add(\""${mongonodes[$rs]}"\")';"
+    mongocmd="--host ${mongonodes[0]} --eval 'rs.add(\"${mongonodes[$rs]}\")';"
     echo $mongocmd
     mongo $mongocmd
     echo add node $rs
