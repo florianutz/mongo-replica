@@ -49,7 +49,7 @@ if [ $? -ne 0 ]; then
   setupreplica
 fi
 
-if [$status -ne $nodecount]; then
+if [ $status -ne $nodecount ]; then
   setupreplica
 fi
 echo status ist $status
