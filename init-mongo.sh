@@ -48,6 +48,10 @@ status=$(mongo --host ${mongonodes[0]} --quiet --eval 'rs.status().members.lengt
 if [ $? -ne 0 ]; then
   setupreplica
 fi
+
+if [$status -ne $nodecount]; then
+  setupreplica
+fi
 echo status ist $status
 mongo --host ${mongonodes[0]} --eval 'rs.status().members.length';
 mongo --host ${mongonodes[0]} --eval 'rs.status()';
