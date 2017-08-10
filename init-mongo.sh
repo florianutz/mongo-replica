@@ -10,7 +10,7 @@ function checkparameters() {
     echo not default nodes
   fi
   masternode=${mongonodes[0]}
-  slavenodes=${mongonodes[@]}
+  slavenodes=("${mongonodes[@]}")
   unset slavenodes[0]
 }
 
