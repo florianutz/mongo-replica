@@ -9,6 +9,9 @@ function checkparameters() {
     mongonodes=( "$@" )
     echo not default nodes
   fi
+  masternode=${mongonodes[0]}
+  slavenodes=${mongonodes[@]}
+  unset slavenodes[0]
 }
 
 # Make sure all replicas available
@@ -24,13 +27,14 @@ function checknodes() {
 setupreplica() {
   echo Replicaset not yet configured
   echo rs.initiate
-  mongo --host ${mongonodes[0]} --eval 'rs.initiate()';
+  mongo --host $masternode --eval 'rs.initiate()';
   echo rs.conf
-  mongo --host ${mongonodes[0]} --eval 'rs.conf()';
-  for (( rs=1; rs<${nodecount}; rs++ ));
+  mongo --host $masternode --eval 'rs.conf()';
+  #for (( rs=1; rs<${nodecount}; rs++ ));
+  for rs in "${slavenodes[@]}"
   do
-    # mongocmd="--host "${mongonodes[0]}" --eval 'rs.add(\""${mongonodes[$rs]}"\")';"
-    mongocmd="--host ${mongonodes[0]} --eval 'rs.add(\"${mongonodes[$rs]}\")';"
+    # mongocmd="--host "${mongonodes[0]}" --eval 'rs.add(\""$rs"\")';"
+    mongocmd="--host ${mongonodes[0]} --eval 'rs.add(\"$rs\")';"
     echo $mongocmd
     mongo $mongocmd
     echo add node $rs
@@ -45,7 +49,7 @@ nodecount=${#mongonodes[*]}
 #echo ${mongonodes[*]}
 #exit 0
 # Connect to rs1 and check is replicaset already configured with 3 nodes
-status=$(mongo --host ${mongonodes[0]} --quiet --eval 'rs.status().members.length')
+status=$(mongo --host $masternode --quiet --eval 'rs.status().members.length')
 if [ $? -ne 0 ]; then
   setupreplica
 fi
@@ -54,6 +58,6 @@ if [ $status -ne $nodecount ]; then
   setupreplica
 fi
 echo status ist $status
-mongo --host ${mongonodes[0]} --eval 'rs.status().members.length';
-mongo --host ${mongonodes[0]} --eval 'rs.status()';
+mongo --host $masternode --eval 'rs.status().members.length';
+mongo --host $masternode --eval 'rs.status()';
 exit 0
