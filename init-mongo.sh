@@ -34,7 +34,7 @@ setupreplica() {
   for rs in "${slavenodes[@]}"
   do
     # mongocmd="--host "${mongonodes[0]}" --eval 'rs.add(\""$rs"\")';"
-    mongocmd="--host ${mongonodes[0]} --eval 'rs.add(\"$rs\")';"
+    mongocmd="--host $masternode --eval 'rs.add($rs)';"
     echo $mongocmd
     mongo $mongocmd
     echo add node $rs
